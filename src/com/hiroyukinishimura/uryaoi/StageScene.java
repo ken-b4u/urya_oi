@@ -31,6 +31,7 @@ public class StageScene extends BaseScene implements ButtonSprite.OnClickListene
 	private Text textScore;
 	
 	private int combo;
+	private int score;
 	private int count;
 	
 	private int[] urya;
@@ -52,11 +53,17 @@ public class StageScene extends BaseScene implements ButtonSprite.OnClickListene
 		urya =  getBaseActivity().getResources().getIntArray(R.array.urya);
 		oi =  getBaseActivity().getResources().getIntArray(R.array.oi);
 		
-		// MAXスコア
+		// スコア
 		Font textFont = getBaseActivity().getFont();
-		String maxScore = getBaseActivity().getMaxScorePrefs() + " combo";
+		String strScore = formatScore(score);
+		textScore = new Text(0, getBaseActivity().getCameraWidth(), textFont, strScore, (strScore.length() + 1) * 2, new TextOptions(HorizontalAlign.CENTER), getBaseActivity().getVertexBufferObjectManager());
+		textScore.setPosition(10,10);
+		attachChild(textScore);
+		
+		// MAXスコア
+		String maxScore = "MAXスコア：" + getBaseActivity().getMaxScorePrefs();
 		textMaxScore = new Text(0, getBaseActivity().getCameraWidth(), textFont, maxScore, (maxScore.length() + 1) * 2, new TextOptions(HorizontalAlign.CENTER), getBaseActivity().getVertexBufferObjectManager());
-		textMaxScore.setPosition(10,10);
+		textMaxScore.setPosition(10,40);
 		attachChild(textMaxScore);
 		
 		spriteBase = getBaseActivity().getResourceUtil().getSprite("base.png");
@@ -93,15 +100,26 @@ public class StageScene extends BaseScene implements ButtonSprite.OnClickListene
 			for (int i = 0; i < getChildCount(); i++) {
 				if (getChildByIndex(i).getTag() == TAG_SPRITE_URYA) {
 					float x = getChildByIndex(i).getX();
-					System.out.println("Urya x=" + x);
 					if (x >= 80 && x <= 120) {
 						++combo;
 						getChildByIndex(i).detachSelf();
+					} else {
+						combo = 0;
 					}
 				}
 			}
 		} else if (pButtonSprite.getTag() == TAG_BUTTON_OI) {
-		
+			for (int i = 0; i < getChildCount(); i++) {
+				if (getChildByIndex(i).getTag() == TAG_SPRITE_OI) {
+					float x = getChildByIndex(i).getX();
+					if (x >= 80 && x <= 120) {
+						++combo;
+						getChildByIndex(i).detachSelf();
+					} else {
+						combo = 0;
+					}
+				}
+			}		
 		}
 		
 	}
@@ -147,6 +165,10 @@ public class StageScene extends BaseScene implements ButtonSprite.OnClickListene
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent e) {
 		return false;
+	}
+	
+	private String formatScore(int score) {
+		return "スコア：" + score;
 	}
 	
 }
