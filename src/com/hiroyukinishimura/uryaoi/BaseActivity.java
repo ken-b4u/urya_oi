@@ -14,7 +14,10 @@ import org.andengine.ui.activity.SimpleLayoutGameActivity;
 import org.andengine.util.color.Color;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -25,6 +28,9 @@ public abstract class BaseActivity extends SimpleLayoutGameActivity {
 	// 画面のサイズ。
 	private int CAMERA_WIDTH = 480;
 	private int CAMERA_HEIGHT = 800;
+	
+	private final static String PREFERENCES_KEY = "uryaOi";
+	private final static String MAX_SCORE = "maxScore";
 	
 	public MediaPlayer mediaPlayer;
 
@@ -161,5 +167,19 @@ public abstract class BaseActivity extends SimpleLayoutGameActivity {
 
 	public void onPause() {
 		super.onPause();
+	}
+	
+	protected int getMaxScorePrefs() {
+		SharedPreferences pref;
+		pref = getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE);
+		return pref.getInt(MAX_SCORE, 0);
+	}
+
+	protected void saveMaxScorePrefs(int value) {
+		SharedPreferences pref;
+		pref = getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE);
+		Editor edit = pref.edit();
+		edit.putInt(MAX_SCORE, value);
+		edit.commit();
 	}
 }

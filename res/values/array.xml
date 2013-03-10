@@ -1,0 +1,11 @@
+<resources>
+    <integer-array name="urya">
+		<item>10</item>
+		<item>50</item>
+	</integer-array>
+	<integer-array name="oi">
+		<item>30</item>
+		<item>70</item>
+	</integer-array>
+	 
+</resources>

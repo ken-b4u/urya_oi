@@ -26,6 +26,10 @@
             android:name=".TitleActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name=".StageActivity"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>
